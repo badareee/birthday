@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Birthday Surprise</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body, html { height: 100%; font-family: Arial, sans-serif; color: #fff; background: #000; }
+
+    /* LOGIN PAGE */
+    #login-page, #loading, #main {
+      display: none;
+      height: 100vh;
+      width: 100%;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+    #login-page { display: flex; background: #0d0d0d; }
+    .login-box {
+      background: rgba(255,255,255,0.05);
+      padding: 40px;
+      border-radius: 16px;
+      width: 350px;
+      text-align: center;
+    }
+    .login-box h2 { margin-bottom: 20px; font-size: 26px; letter-spacing: 1px; }
+    .login-box input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+    }
+    .login-box button {
+      width: 100%;
+      padding: 14px;
+      margin-top: 10px;
+      background: #333;
+      border: none;
+      border-radius: 12px;
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .login-box button:hover { background: #444; }
+
+    /* LOADING PAGE */
+    #loading { background: black; color: white; font-size: 26px; flex-direction: column; gap: 20px; }
+    .loader {
+      border: 8px solid rgba(255,255,255,0.1);
+      border-top: 8px solid white;
+      border-radius: 50%;
+      width: 70px;
+      height: 70px;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin { 100% { transform: rotate(360deg); } }
+    .loading-text { font-size: 24px; font-weight: bold; animation: fade 1.5s infinite alternate; }
+    @keyframes fade { from { opacity: 0.4; } to { opacity: 1; } }
+
+    /* MAIN */
+    #main { overflow: auto; }
+    section {
+      height: 100vh;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 20px;
+    }
+    video {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+    h1 {
+      font-size: 3.5rem;
+      animation: waveText 3s infinite ease-in-out;
+    }
+    @keyframes waveText {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+    button.reveal-btn {
+      margin-top: 30px;
+      padding: 14px 30px;
+      background: #222;
+      border: none;
+      border-radius: 14px;
+      font-size: 20px;
+      cursor: pointer;
+      color: #fff;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+    button.reveal-btn:hover { background: #444; }
+    p {
+      max-width: 700px;
+      font-size: 1.7rem;
+      line-height: 1.6;
+      animation: fadeIn 3s forwards;
+      opacity: 0;
+    }
+    @keyframes fadeIn { to { opacity: 1; } }
+
+    /* MARQUEE */
+    marquee {
+      font-size: 2rem;
+      font-weight: bold;
+      padding: 15px;
+      background: rgba(0,0,0,0.6);
+      position: absolute;
+      top: 20px;
+      width: 100%;
+      color: #fff;
+      letter-spacing: 2px;
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+    @keyframes glow {
+      from { text-shadow: 0 0 10px #fff; }
+      to { text-shadow: 0 0 20px #ff69b4, 0 0 30px #ff69b4; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- LOGIN PAGE -->
+  <div id="login-page">
+    <div class="login-box">
+      <h2>🎂 Birthday Login</h2>
+      <input type="text" id="username" placeholder="Username">
+      <input type="password" id="password" placeholder="Password">
+      <button onclick="checkLogin()">Enter</button>
+    </div>
+  </div>
+
+  <!-- LOADING -->
+  <div id="loading">
+    <div class="loader"></div>
+    <p class="loading-text" id="loadingMessage">Wait dude...</p>
+  </div>
+
+  <!-- MAIN PAGE -->
+  <div id="main">
+    <!-- Section 1 -->
+    <section id="section1">
+      <video autoplay loop muted>
+        <source src="1.mp4" type="video/mp4">
+      </video>
+      <marquee behavior="scroll" direction="left" scrollamount="8">
+        ✨ Wishing you joy, love and countless memories on your special day Hassan! ✨
+      </marquee>
+      <h1>Happy Birthday 🎉</h1>
+      <button class="reveal-btn" onclick="revealSurprise()">Reveal Surprise</button>
+    </section>
+
+    <!-- Section 2 (Hidden Initially) -->
+    <section id="section2" style="display:none;">
+      <video autoplay loop muted>
+        <source src="2.mp4" type="video/mp4">
+      </video>
+      <h1>Happy Birthday Hassan 🎂</h1>
+      <p>You mean a lot to me… I may not be perfect, but I love you endlessly 💖</p>
+    </section>
+  </div>
+
+  <script>
+    const correctUser = "ree";
+    const correctPass = "ree";
+    const messages = [
+      "Wait dude...",
+      "Oops almost there...",
+      "Loading happiness...",
+      "Hold tight bestie...",
+      "Magic is happening..."
+    ];
+
+    function checkLogin() {
+      const user = document.getElementById("username").value;
+      const pass = document.getElementById("password").value;
+
+      if (user === correctUser && pass === correctPass) {
+        document.getElementById("login-page").style.display = "none";
+        document.getElementById("loading").style.display = "flex";
+
+        let i = 0;
+        const msgInterval = setInterval(() => {
+          document.getElementById("loadingMessage").innerText = messages[i % messages.length];
+          i++;
+        }, 2000);
+
+        setTimeout(() => {
+          clearInterval(msgInterval);
+          document.getElementById("loading").style.display = "none";
+          document.getElementById("main").style.display = "block";
+        }, 12000); // ~12 sec loading
+      } else {
+        alert("Wrong username or password ❌");
+      }
+    }
+
+    function revealSurprise() {
+      document.getElementById("section1").style.display = "none";
+      document.getElementById("section2").style.display = "flex";
+    }
+  </script>
+
+</body>
+</html>
