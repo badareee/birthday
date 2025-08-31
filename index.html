@@ -1,218 +1,706 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Birthday Surprise</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body, html { height: 100%; font-family: Arial, sans-serif; color: #fff; background: #000; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birthday Surprise</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    /* LOGIN PAGE */
-    #login-page, #loading, #main {
-      display: none;
-      height: 100vh;
-      width: 100%;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-    }
-    #login-page { display: flex; background: #0d0d0d; }
-    .login-box {
-      background: rgba(255,255,255,0.05);
-      padding: 40px;
-      border-radius: 16px;
-      width: 350px;
-      text-align: center;
-    }
-    .login-box h2 { margin-bottom: 20px; font-size: 26px; letter-spacing: 1px; }
-    .login-box input {
-      width: 100%;
-      padding: 12px;
-      margin: 10px 0;
-      border: none;
-      border-radius: 10px;
-      font-size: 16px;
-    }
-    .login-box button {
-      width: 100%;
-      padding: 14px;
-      margin-top: 10px;
-      background: #333;
-      border: none;
-      border-radius: 12px;
-      color: white;
-      font-size: 18px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    .login-box button:hover { background: #444; }
+        body,
+        html {
+            height: 100%;
+            font-family: 'Arial', sans-serif;
+            color: #fff;
+            background: linear-gradient(45deg, #1a1a2e, #16213e, #0f3460);
+            overflow-x: hidden;
+        }
 
-    /* LOADING PAGE */
-    #loading { background: black; color: white; font-size: 26px; flex-direction: column; gap: 20px; }
-    .loader {
-      border: 8px solid rgba(255,255,255,0.1);
-      border-top: 8px solid white;
-      border-radius: 50%;
-      width: 70px;
-      height: 70px;
-      animation: spin 1s linear infinite;
-    }
-    @keyframes spin { 100% { transform: rotate(360deg); } }
-    .loading-text { font-size: 24px; font-weight: bold; animation: fade 1.5s infinite alternate; }
-    @keyframes fade { from { opacity: 0.4; } to { opacity: 1; } }
+        /* LOGIN PAGE */
+        #login-page,
+        #loading,
+        #main {
+            display: none;
+            height: 100vh;
+            width: 100%;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
 
-    /* MAIN */
-    #main { overflow: auto; }
-    section {
-      height: 100vh;
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 20px;
-    }
-    video {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      object-fit: cover;
-      z-index: -1;
-    }
-    h1 {
-      font-size: 3.5rem;
-      animation: waveText 3s infinite ease-in-out;
-    }
-    @keyframes waveText {
-      0%,100% { transform: translateY(0); }
-      50% { transform: translateY(-15px); }
-    }
-    button.reveal-btn {
-      margin-top: 30px;
-      padding: 14px 30px;
-      background: #222;
-      border: none;
-      border-radius: 14px;
-      font-size: 20px;
-      cursor: pointer;
-      color: #fff;
-      font-weight: bold;
-      transition: 0.3s;
-    }
-    button.reveal-btn:hover { background: #444; }
-    p {
-      max-width: 700px;
-      font-size: 1.7rem;
-      line-height: 1.6;
-      animation: fadeIn 3s forwards;
-      opacity: 0;
-    }
-    @keyframes fadeIn { to { opacity: 1; } }
+        #login-page {
+            display: flex;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            animation: gradientShift 8s ease-in-out infinite;
+        }
 
-    /* MARQUEE */
-    marquee {
-      font-size: 2rem;
-      font-weight: bold;
-      padding: 15px;
-      background: rgba(0,0,0,0.6);
-      position: absolute;
-      top: 20px;
-      width: 100%;
-      color: #fff;
-      letter-spacing: 2px;
-      animation: glow 2s ease-in-out infinite alternate;
-    }
-    @keyframes glow {
-      from { text-shadow: 0 0 10px #fff; }
-      to { text-shadow: 0 0 20px #ff69b4, 0 0 30px #ff69b4; }
-    }
-  </style>
+        @keyframes gradientShift {
+            0%, 100% { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+            25% { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+            50% { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+            75% { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+        }
+
+        .login-box {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 20px;
+            width: 450px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .login-box h2 {
+            margin-bottom: 20px;
+            font-size: 28px;
+            letter-spacing: 1px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: rgbShift 3s ease-in-out infinite;
+        }
+
+        @keyframes rgbShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .login-box input {
+            outline: none;
+            width: 100%;
+            padding: 15px;
+            margin: 15px 0;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            transition: all 0.3s ease;
+        }
+
+        .login-box input:focus {
+            transform: scale(1.02);
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.5);
+        }
+
+        .login-box button {
+            width: 100%;
+            padding: 16px;
+            margin-top: 10px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-box button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .login-box button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: 0.5s;
+        }
+
+        .login-box button:hover::before {
+            left: 100%;
+        }
+
+        /* LOADING PAGE */
+        #loading {
+            background: radial-gradient(circle, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: white;
+            font-size: 26px;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .loader {
+            border: 8px solid rgba(255, 255, 255, 0.1);
+            border-top: 8px solid #ff6b6b;
+            border-right: 8px solid #4ecdc4;
+            border-bottom: 8px solid #45b7d1;
+            border-left: 8px solid #96ceb4;
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            animation: spin 1s linear infinite, colorRotate 2s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes colorRotate {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
+
+        .loading-text {
+            font-size: 28px;
+            font-weight: bold;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: rgbShift 2s ease-in-out infinite, pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* MAIN */
+        #main {
+            overflow: auto;
+        }
+
+        section {
+            height: 100vh;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+        }
+
+        /* VIDEO OVERLAY */
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, 
+                rgba(255, 107, 107, 0.3) 0%, 
+                rgba(78, 205, 196, 0.3) 25%, 
+                rgba(69, 183, 209, 0.3) 50%, 
+                rgba(150, 206, 180, 0.3) 75%, 
+                rgba(255, 107, 107, 0.3) 100%);
+            background-size: 400% 400%;
+            animation: gradientFlow 6s ease-in-out infinite;
+            z-index: 2;
+        }
+
+        @keyframes gradientFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        h1 {
+            font-size: 4rem;
+            z-index: 3;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #ff6b6b);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: waveText 3s infinite ease-in-out, rgbShift 4s ease-in-out infinite, textGlow 2s ease-in-out infinite;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+        }
+
+        @keyframes waveText {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-15px) scale(1.05); }
+        }
+
+        @keyframes textGlow {
+            0%, 100% { 
+                text-shadow: 
+                    0 0 10px rgba(255, 107, 107, 0.8),
+                    0 0 20px rgba(255, 107, 107, 0.6),
+                    0 0 30px rgba(255, 107, 107, 0.4),
+                    2px 2px 4px rgba(0, 0, 0, 0.8);
+            }
+            25% { 
+                text-shadow: 
+                    0 0 10px rgba(78, 205, 196, 0.8),
+                    0 0 20px rgba(78, 205, 196, 0.6),
+                    0 0 30px rgba(78, 205, 196, 0.4),
+                    2px 2px 4px rgba(0, 0, 0, 0.8);
+            }
+            50% { 
+                text-shadow: 
+                    0 0 10px rgba(69, 183, 209, 0.8),
+                    0 0 20px rgba(69, 183, 209, 0.6),
+                    0 0 30px rgba(69, 183, 209, 0.4),
+                    2px 2px 4px rgba(0, 0, 0, 0.8);
+            }
+            75% { 
+                text-shadow: 
+                    0 0 10px rgba(150, 206, 180, 0.8),
+                    0 0 20px rgba(150, 206, 180, 0.6),
+                    0 0 30px rgba(150, 206, 180, 0.4),
+                    2px 2px 4px rgba(0, 0, 0, 0.8);
+            }
+        }
+
+        button.reveal-btn {
+            margin-top: 30px;
+            padding: 16px 35px;
+            background: linear-gradient(45deg, #667eea, #764ba2, #f093fb, #f5576c);
+            background-size: 300% 300%;
+            border: none;
+            border-radius: 15px;
+            font-size: 22px;
+            cursor: pointer;
+            color: #fff;
+            font-weight: bold;
+            z-index: 3;
+            position: relative;
+            overflow: hidden;
+            animation: buttonGlow 3s ease-in-out infinite, gradientMove 4s ease-in-out infinite;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes buttonGlow {
+            0%, 100% { box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4); }
+            50% { box-shadow: 0 15px 40px rgba(240, 147, 251, 0.6); }
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        button.reveal-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            animation-play-state: paused;
+        }
+
+        button.reveal-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: 0.6s;
+        }
+
+        button.reveal-btn:hover::before {
+            left: 100%;
+        }
+
+        p {
+            max-width: 700px;
+            font-size: 1.8rem;
+            line-height: 1.6;
+            z-index: 3;
+            background: linear-gradient(45deg, #ff9a9e, #fad0c4, #a8edea, #fed6e3);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: fadeInUp 3s forwards, rgbShift 5s ease-in-out infinite;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* MARQUEE */
+        marquee {
+            font-size: 2rem;
+            font-weight: bold;
+            padding: 20px;
+            background: linear-gradient(90deg, 
+                rgba(255, 107, 107, 0.8) 0%, 
+                rgba(78, 205, 196, 0.8) 25%, 
+                rgba(69, 183, 209, 0.8) 50%, 
+                rgba(150, 206, 180, 0.8) 75%, 
+                rgba(255, 107, 107, 0.8) 100%);
+            background-size: 400% 400%;
+            position: absolute;
+            top: 0;
+            width: 100%;
+            color: #fff;
+            letter-spacing: 2px;
+            z-index: 3;
+            animation: marqueeGlow 3s ease-in-out infinite, gradientFlow 6s ease-in-out infinite;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        @keyframes marqueeGlow {
+            0%, 100% { 
+                text-shadow: 0 0 20px #fff, 0 0 30px #ff69b4, 0 0 40px #ff69b4;
+                transform: translateY(0);
+            }
+            50% { 
+                text-shadow: 0 0 30px #fff, 0 0 40px #00ffff, 0 0 50px #00ffff;
+                transform: translateY(-2px);
+            }
+        }
+
+        /* PARTICLES BACKGROUND */
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float-particles 8s infinite linear;
+        }
+
+        @keyframes float-particles {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* FALLBACK BACKGROUND FOR VIDEOS */
+        .fallback-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #1a1a2e, #16213e, #0f3460, #1a1a2e);
+            background-size: 400% 400%;
+            animation: gradientFlow 8s ease-in-out infinite;
+            z-index: 0;
+        }
+
+        video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+        }
+
+        /* VIDEO OVERLAY */
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, 
+                rgba(0, 0, 0, 0.7) 0%, 
+                rgba(255, 107, 107, 0.2) 25%, 
+                rgba(78, 205, 196, 0.2) 50%, 
+                rgba(69, 183, 209, 0.2) 75%, 
+                rgba(0, 0, 0, 0.7) 100%);
+            background-size: 400% 400%;
+            animation: gradientFlow 6s ease-in-out infinite;
+            z-index: 2;
+        }
+
+        section {
+            height: 100vh;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        h1 {
+            font-size: 4.5rem;
+            z-index: 4;
+            color: #ffffff;
+            font-weight: bold;
+            text-shadow: 
+                0 0 10px rgba(255, 107, 107, 0.8),
+                0 0 20px rgba(78, 205, 196, 0.6),
+                0 0 30px rgba(69, 183, 209, 0.4),
+                2px 2px 4px rgba(0, 0, 0, 0.8);
+            animation: waveText 3s infinite ease-in-out, textGlow 3s ease-in-out infinite;
+            margin-bottom: 20px;
+        }
+
+        button.reveal-btn {
+            margin-top: 40px;
+            padding: 18px 40px;
+            background: linear-gradient(45deg, #667eea, #764ba2, #f093fb, #f5576c);
+            background-size: 300% 300%;
+            border: none;
+            border-radius: 25px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #fff;
+            font-weight: bold;
+            z-index: 4;
+            position: relative;
+            overflow: hidden;
+            animation: buttonGlow 3s ease-in-out infinite, gradientMove 4s ease-in-out infinite, bounce 2s ease-in-out infinite;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        button.reveal-btn:hover {
+            transform: translateY(-5px) scale(1.08);
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.5);
+            animation-play-state: paused;
+        }
+
+        p {
+            max-width: 800px;
+            font-size: 2rem;
+            line-height: 1.7;
+            z-index: 4;
+            color: #ffffff;
+            font-weight: 600;
+            text-shadow: 
+                0 0 10px rgba(255, 154, 158, 0.8),
+                0 0 20px rgba(250, 208, 196, 0.6),
+                2px 2px 4px rgba(0, 0, 0, 0.9);
+            animation: fadeInUp 3s forwards, textFloat 4s ease-in-out infinite, pGlow 4s ease-in-out infinite;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        @keyframes pGlow {
+            0%, 100% { 
+                text-shadow: 
+                    0 0 10px rgba(255, 154, 158, 0.8),
+                    0 0 20px rgba(255, 154, 158, 0.6),
+                    2px 2px 4px rgba(0, 0, 0, 0.9);
+            }
+            33% { 
+                text-shadow: 
+                    0 0 10px rgba(250, 208, 196, 0.8),
+                    0 0 20px rgba(250, 208, 196, 0.6),
+                    2px 2px 4px rgba(0, 0, 0, 0.9);
+            }
+            66% { 
+                text-shadow: 
+                    0 0 10px rgba(168, 237, 234, 0.8),
+                    0 0 20px rgba(168, 237, 234, 0.6),
+                    2px 2px 4px rgba(0, 0, 0, 0.9);
+            }
+        }
+
+        @keyframes textFloat {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-5px) scale(1.02); }
+        }
+
+        /* ENHANCED ANIMATIONS */
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            h1 { font-size: 3rem; }
+            p { font-size: 1.5rem; }
+            .login-box { width: 90%; padding: 30px; }
+            button.reveal-btn { font-size: 20px; padding: 16px 30px; }
+        }
+    </style>
 </head>
+
 <body>
 
-  <!-- LOGIN PAGE -->
-  <div id="login-page">
-    <div class="login-box">
-      <h2>🎂 Birthday Login</h2>
-      <input type="text" id="username" placeholder="Username">
-      <input type="password" id="password" placeholder="Password">
-      <button onclick="checkLogin()">Enter</button>
+    <!-- LOGIN PAGE -->
+    <div id="login-page">
+        <div class="login-box">
+            <h2>🎂Birthday Boy🤭</h2>
+            <input type="text" id="username" placeholder="Username">
+            <input type="password" id="password" placeholder="Password">
+            <button onclick="checkLogin()">Enter</button>
+        </div>
     </div>
-  </div>
 
-  <!-- LOADING -->
-  <div id="loading">
-    <div class="loader"></div>
-    <p class="loading-text" id="loadingMessage">Wait dude...</p>
-  </div>
+    <!-- LOADING -->
+    <div id="loading">
+        <div class="loader"></div>
+        <p class="loading-text" id="loadingMessage">Wait dude...</p>
+    </div>
 
-  <!-- MAIN PAGE -->
-  <div id="main">
-    <!-- Section 1 -->
-    <section id="section1">
-      <video autoplay loop muted>
-        <source src="1.mp4" type="video/mp4">
-      </video>
-      <marquee behavior="scroll" direction="left" scrollamount="8">
-        ✨ Wishing you joy, love and countless memories on your special day Hassan! ✨
-      </marquee>
-      <h1>Happy Birthday 🎉</h1>
-      <button class="reveal-btn" onclick="revealSurprise()">Reveal Surprise</button>
-    </section>
+    <!-- MAIN PAGE -->
+    <div id="main">
+        <!-- Section 1 -->
+        <section id="section1">
+            <div class="fallback-bg"></div>
+            <video autoplay loop muted playsinline>
+                <source src="1.mp4" type="video/mp4">
+            </video>
+            <div class="video-overlay"></div>
+            <div class="particles" id="particles1"></div>
+            <marquee behavior="scroll" direction="left" scrollamount="10">
+                ✨ Wishing you joy, love and countless memories on your special day Hassan! ✨
+            </marquee>
+            <h1>Happy Birthday 🎉</h1>
+            <button class="reveal-btn" onclick="revealSurprise()">Reveal Surprise</button>
+        </section>
 
-    <!-- Section 2 (Hidden Initially) -->
-    <section id="section2" style="display:none;">
-      <video autoplay loop muted>
-        <source src="2.mp4" type="video/mp4">
-      </video>
-      <h1>Happy Birthday Hassan 🎂</h1>
-      <p>You mean a lot to me… I may not be perfect, but I love you endlessly 💖</p>
-    </section>
-  </div>
+        <!-- Section 2 (Hidden Initially) -->
+        <section id="section2" style="display:none;">
+            <div class="fallback-bg"></div>
+            <video autoplay loop muted playsinline>
+                <source src="2.mp4" type="video/mp4">
+            </video>
+            <div class="video-overlay"></div>
+            <div class="particles" id="particles2"></div>
+            <h1>Happy Birthday Hassan 🎂</h1>
+            <p>You mean a lot to me… I may not be perfect, but I love you endlessly 💖</p>
+        </section>
+    </div>
 
-  <script>
-    const correctUser = "ree";
-    const correctPass = "ree";
-    const messages = [
-      "Wait dude...",
-      "Oops almost there...",
-      "Loading happiness...",
-      "Hold tight bestie...",
-      "Magic is happening..."
-    ];
+    <script>
+        const correctUser = "Hassan";
+        const correctPass = "Zara";
+        const messages = [
+            "Wait Hassan...",
+            "Oops almost there...",
+            "Loading happiness...",
+            "Hold tight bestie...",
+            "Magic is happening..."
+        ];
 
-    function checkLogin() {
-      const user = document.getElementById("username").value;
-      const pass = document.getElementById("password").value;
+        // Create floating particles
+        function createParticles(containerId) {
+            const container = document.getElementById(containerId);
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.width = (Math.random() * 4 + 2) + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.animationDelay = Math.random() * 8 + 's';
+                particle.style.animationDuration = (Math.random() * 6 + 4) + 's';
+                container.appendChild(particle);
+            }
+        }
 
-      if (user === correctUser && pass === correctPass) {
-        document.getElementById("login-page").style.display = "none";
-        document.getElementById("loading").style.display = "flex";
+        function checkLogin() {
+            const user = document.getElementById("username").value;
+            const pass = document.getElementById("password").value;
 
-        let i = 0;
-        const msgInterval = setInterval(() => {
-          document.getElementById("loadingMessage").innerText = messages[i % messages.length];
-          i++;
-        }, 2000);
+            if (user === correctUser && pass === correctPass) {
+                document.getElementById("login-page").style.display = "none";
+                document.getElementById("loading").style.display = "flex";
 
-        setTimeout(() => {
-          clearInterval(msgInterval);
-          document.getElementById("loading").style.display = "none";
-          document.getElementById("main").style.display = "block";
-        }, 12000); // ~12 sec loading
-      } else {
-        alert("Wrong username or password ❌");
-      }
-    }
+                let i = 0;
+                const msgInterval = setInterval(() => {
+                    document.getElementById("loadingMessage").innerText = messages[i % messages.length];
+                    i++;
+                }, 2000);
 
-    function revealSurprise() {
-      document.getElementById("section1").style.display = "none";
-      document.getElementById("section2").style.display = "flex";
-    }
-  </script>
+                setTimeout(() => {
+                    clearInterval(msgInterval);
+                    document.getElementById("loading").style.display = "none";
+                    document.getElementById("main").style.display = "block";
+                    
+                    // Create particles when main page loads
+                    createParticles('particles1');
+                    createParticles('particles2');
+                }, 12000);
+            } else {
+                alert("Wrong username or password ❌");
+            }
+        }
+
+        function revealSurprise() {
+            const section1 = document.getElementById("section1");
+            const section2 = document.getElementById("section2");
+            
+            // Fade out section 1
+            section1.style.transition = "opacity 0.8s ease-in-out";
+            section1.style.opacity = "0";
+            
+            setTimeout(() => {
+                section1.style.display = "none";
+                section2.style.display = "flex";
+                section2.style.opacity = "0";
+                section2.style.transition = "opacity 0.8s ease-in-out";
+                
+                // Fade in section 2
+                setTimeout(() => {
+                    section2.style.opacity = "1";
+                }, 50);
+            }, 800);
+        }
+
+        // Initialize particles when page loads
+        window.addEventListener('load', () => {
+            createParticles('particles1');
+            createParticles('particles2');
+        });
+    </script>
 
 </body>
+
 </html>
